@@ -4,18 +4,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+// Test class for Scenario
 public class ScenarioTest {
     Character A;
-    Scenario S = new Scenario();
+    Scenario S;
 
     @BeforeEach
     void runBefore() {
         A = new Character("Arthur");
-        S.setName("Test");
-        S.setIntro("You enter a testing room");
-        S.setPassMessage("You complete the test with ease");
-        S.setFailMessage("You fail the test");
-        S.setEndMessage("You despair at your failed test. You lose the will to live");
+        S = new Scenario("Test", "You enter a testing room", "You complete the test with ease",
+                "You fail the test", "You despair at your failed test. You lose the will to live");
     }
 
     @Test
@@ -28,30 +26,44 @@ public class ScenarioTest {
     }
 
     @Test
-    void conditionTest() {
+    void conditionTestLow() {
         S.addCondition("VIT", 5);
-        assertTrue(S.passFail(A));
+        assertTrue(S.passFail(A, 0));
 
         S.addCondition("MAG", 5);
-        assertTrue(S.passFail(A));
+        assertTrue(S.passFail(A, 0));
 
         S.addCondition("AGI", 10);
         S.removeCondition("VIT");
-        assertFalse(S.passFail(A));
+        assertFalse(S.passFail(A, 0));
 
     }
 
     @Test
-    void resolveTest() {
+    void conditionTestHigh() {
         S.addCondition("VIT", 5);
-        assertEquals(S.resolveScenario(A), S.getPassMessage());
+        assertTrue(S.passFail(A, 0));
+        assertFalse(S.passFail(A, 20));
+    }
+
+    @Test
+    void resolveTestLow() {
+        S.addCondition("VIT", 5);
+        assertEquals(S.resolveScenario(A, 0), S.getPassMessage());
 
         S.addCondition("LUC", 20);
-        assertEquals(S.resolveScenario(A), S.getFailMessage());
+        assertEquals(S.resolveScenario(A, 0), S.getFailMessage());
         assertEquals(A.getHealth(), 4);
 
         A.setHealth(1);
-        assertEquals(S.resolveScenario(A), S.getEndMessage());
+        assertEquals(S.resolveScenario(A, 0), S.getEndMessage());
         assertEquals(A.getHealth(), 0);
+    }
+
+    @Test
+    void resolveTestHigh() {
+        S.addCondition("VIT", 5);
+        assertEquals(S.resolveScenario(A, 0), S.getPassMessage());
+        assertEquals(S.resolveScenario(A, 20), S.getFailMessage());
     }
 }

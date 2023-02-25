@@ -4,9 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
+
+// Test class for Character
 class CharacterTest {
     Character A;
-
 
     @BeforeEach
     void runBefore() {
@@ -25,6 +28,9 @@ class CharacterTest {
 
         A.setName("Amy");
         assertEquals(A.getName(), "Amy");
+
+        ArrayList<String> x = A.getStatNames();
+        assertEquals(x, A.getStatNames());
     }
 
     // create new Character test
@@ -81,7 +87,24 @@ class CharacterTest {
         assertEquals(A.getLevel(), 20);
     }
 
+    @Test
+    void maxLevelTestOverflow() {
+        A.setLevel(19);
+        A.addExp(400);
+        assertEquals(A.getExp(), 0);
+        assertEquals(A.getLevel(), 20);
+    }
 
+    @Test
+    void changeStatTest() {
+        A.changeStat("STR", 10);
+        assertEquals(A.checkStat("STR"), 15);
 
+        A.changeStat("STR", -15);
+        assertEquals(A.checkStat("STR"), 0);
+
+        A.changeStat("MAG", -10);
+        assertEquals(A.checkStat("MAG"), 0);
+    }
 }
 

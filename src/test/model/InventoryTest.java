@@ -4,18 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+// Test class for Inventory
 public class InventoryTest {
     Character A = new Character("Arthur");
-    Item I = new Item();
-    Item J = new Item();
+    Item I = new Item("TestItem", "A small twig with 'TestItem' written on it");
+    Item J = new Item("", "");
     Inventory Inv;
-
-
 
     @BeforeEach
     void runBefore() {
-        I.setName("TestItem");
-        I.setDescription("A small twig with 'TestItem' written on it");
         I.addEffects("INT", 7);
         I.addEffects("STR", -3);
         Inv = new Inventory();

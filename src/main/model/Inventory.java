@@ -2,10 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
+// Represents the inventory in-game
 public class Inventory {
 
     private int potions;
-    private ArrayList<Item> items;
+    private final ArrayList<Item> items;
 
     public Inventory() {
         items = new ArrayList<>();
@@ -32,13 +33,14 @@ public class Inventory {
     }
 
     // use a potion
-    // MODIFIES: this
+    // MODIFIES: this, character
     //EFFECTS: uses a potion
     public void usePotion(Character character) {
         if ((character.getHealth() != character.getMaxHealth()) && (getPotions() > 0)) {
             addPotions(-1);
             int currentHealth = character.getHealth();
-            character.setHealth(currentHealth + 1);
+            currentHealth += 1;
+            character.setHealth(currentHealth);
         }
     }
 
@@ -50,7 +52,8 @@ public class Inventory {
     }
 
     // use and remove an item from the inventory
-    // MODIFIES: this
+    // REQUIRES: valid character and position
+    // MODIFIES: this, character
     // EFFECTS: use and removes the item at position from the inventory list
     public void useItem(Character character, int position) {
         Item item = items.get(position);
@@ -59,13 +62,10 @@ public class Inventory {
     }
 
     // discard item from inventory
+    // REQUIRES: valid position
     // MODIFIES: this
     // EFFECTS: removes the item at position from the inventory list
     public void discardItem(int position) {
         items.remove(position);
     }
-
-
-
-
 }

@@ -8,9 +8,16 @@ The game will be open to anyone but I'm hoping that it will be enjoyable to fell
 
 ## User Stories
 
-As a user, I want to be able to:
+As a user, I am able to:
 - create a character with certain attributes.
+- list possible scenarios that can happen in-game
+- add multiple scenarios to a list of possible scenarios that can happen in-game.
+- remove multiple scenarios to a list of possible scenarios that can happen in-game.
+- list items from an inventory
+- add items to an inventory
+- remove items from an inventory
+- add stats to my character
+- list my character's stats
+
+As a user I still want to be able to:
 - have multiple characters independent to each other and list them.
-- add and remove possible scenarios that happen in-game.
-- add and remove items from an inventory that I can list.
-- add stats to my character(s).

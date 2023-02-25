@@ -1,22 +1,21 @@
 package model;
 
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+// Represents a character with associated stats/lvl/hp
 public class Character {
 
     public static final int EXP_LIMIT = 100;
     public static final int LEVEL_CAP = 20;
-
 
     private String name;
     private int exp;
     private int level;
     private int health;
     private int maxHealth;
-    private Hashtable<String, Integer> stats;
-    private ArrayList<String> statNames;
+    private final Hashtable<String, Integer> stats;
+    private final ArrayList<String> statNames;
 
     public Character(String name) {
         this.name = name;
@@ -65,8 +64,8 @@ public class Character {
         return maxHealth;
     }
 
-    public Hashtable<String, Integer> getStats() {
-        return stats;
+    public ArrayList<String> getStatNames() {
+        return statNames;
     }
 
     public void setName(String name) {
@@ -89,8 +88,8 @@ public class Character {
         this.maxHealth = maxHealth;
     }
 
-
     // returns corresponding stat value
+    // REQUIRES: stat exists in character
     public int checkStat(String stat) {
         return stats.get(stat);
     }
@@ -108,6 +107,7 @@ public class Character {
     }
 
     // EXP is added
+    // REQUIRES: positive integer value
     // MODIFIES: this
     // EFFECTS: exp is added to and level increases if EXP limit is reached
     public void addExp(int value) {
@@ -119,43 +119,44 @@ public class Character {
     }
 
     // Level is added to if possible
+    // REQUIRES: positive integer value
     // MODIFIES: this
     // EFFECTS: level is increased by value if possible
-    public String addLevelCheck(int value) {
+    private void addLevelCheck(int value) {
         if ((level + value) <= LEVEL_CAP) {
-            return addLevel(value);
+            addLevel(value);
         } else if (level == LEVEL_CAP) {
-            return "You cannot level up anymore.";
+            return;
         } else {
             value = LEVEL_CAP - level;
-            return addLevel(value);
+            addLevel(value);
         }
     }
 
-    // Level is added to
+    // Level is added to character
+    // REQUIRES: positive integer value
     // MODIFIES: this
     // EFFECTS: level is increased by value
-    public String addLevel(int value) {
+    private void addLevel(int value) {
         for (String statName : statNames) {
             this.changeStat(statName, value);
         }
         level += value;
         determineMaxHealth();
-        if (value == 1) {
-            return "You have leveled up" + Integer.toString(value) + "time.";
-        } else {
-            return "You have leveled up" + Integer.toString(value) + "times.";
-        }
     }
 
     // Desired stat is changed by value
+    // REQUIRES: valid stat name for character
     // MODIFIES: this
     // EFFECTS: Desired stat is changed by value
     public void changeStat(String statName, int value) {
         int old = stats.get(statName);
         old += value;
-        stats.replace(statName, old);
+        if (old > -1) {
+            stats.replace(statName, old);
+        } else {
+            stats.replace(statName, 0);
+        }
     }
-
 }
 

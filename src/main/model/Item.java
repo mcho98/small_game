@@ -1,17 +1,17 @@
 package model;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
 
+//Represents an in-game item
 public class Item {
 
     private String name;
     private String description;
-    private Hashtable<String, Integer> effects;
+    private final Hashtable<String, Integer> effects;
 
-    public Item() {
-        name = "";
-        description = "";
+    public Item(String name, String description) {
+        this.name = name;
+        this.description = description;
         effects = new Hashtable<String, Integer>();
     }
 
@@ -44,13 +44,13 @@ public class Item {
     }
 
     // apply effect
+    // REQUIRES: valid character that shares stats
     // MODIFIES: character
     // EFFECTS: apply effects to character
     public void applyEffects(Character character) {
         for (String stat : effects.keySet()) {
             character.changeStat(stat, effects.get(stat));
         }
-
+        character.determineMaxHealth();
     }
-
 }

@@ -1,47 +1,26 @@
 package model;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
 
+// Represents a scenario that the character must overcome or lose health points.
 public class Scenario {
 
-    private String name;
-    private String intro;
-    private String passMessage;
-    private String failMessage;
-    private String endMessage;
-    private Hashtable<String, Integer> conditions;
+    private final String name;
+    private final String intro;
+    private final String passMessage;
+    private final String failMessage;
+    private final String endMessage;
+    private final Hashtable<String, Integer> conditions;
 
-    public Scenario() {
-        name = "";
-        intro = "";
-
-        passMessage = "";
-        failMessage = "";
-        endMessage = "";
+    public Scenario(String name, String intro, String pass, String fail, String end) {
+        this.name = name;
+        this.intro = intro;
+        passMessage = pass;
+        failMessage = fail;
+        endMessage = end;
 
         conditions = new Hashtable<>();
 
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
-
-    public void setPassMessage(String passMessage) {
-        this.passMessage = passMessage;
-    }
-
-    public void setFailMessage(String failMessage) {
-        this.failMessage = failMessage;
-    }
-
-    public void setEndMessage(String endMessage) {
-        this.endMessage = endMessage;
     }
 
     public String getName() {
@@ -79,10 +58,11 @@ public class Scenario {
     }
 
     // check if character passes or fails the scenario
-    public boolean passFail(Character character) {
+    // REQUIRES: character and scenario share stat keyset
+    public boolean passFail(Character character, int clearing) {
         boolean verdict = true;
         for (String key : conditions.keySet()) {
-            if (conditions.get(key) > character.checkStat(key)) {
+            if ((conditions.get(key) + (clearing / 3)) > character.checkStat(key)) {
                 verdict = false;
             }
         }
@@ -90,8 +70,12 @@ public class Scenario {
     }
 
     // determine outcome of scenario
-    public String resolveScenario(Character character) {
-        if (passFail(character)) {
+    // REQUIRES: character and scenario share stat keyset
+    // MODIFIES: character
+    // EFFECTS: character loses health based on passFail()
+    public String resolveScenario(Character character, int clearings) {
+        if (passFail(character, clearings)) {
+            character.addExp(25);
             return passMessage;
         } else if (character.getHealth() == 1) {
             character.setHealth(0);
@@ -102,7 +86,4 @@ public class Scenario {
             return failMessage;
         }
     }
-
-
-
 }
