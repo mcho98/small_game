@@ -12,6 +12,7 @@ public class Scenario {
     private final String endMessage;
     private final Hashtable<String, Integer> conditions;
 
+    // EFFECTS: initializes scenario with name, intro, and pass-fail-end messages
     public Scenario(String name, String intro, String pass, String fail, String end) {
         this.name = name;
         this.intro = intro;

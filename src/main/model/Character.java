@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+
 // Represents a character with associated stats/lvl/hp
 public class Character {
 
@@ -17,6 +18,7 @@ public class Character {
     private final Hashtable<String, Integer> stats;
     private final ArrayList<String> statNames;
 
+    // EFFECTS: initializes a character with default stats and "name" name
     public Character(String name) {
         this.name = name;
         exp = 0;
@@ -86,6 +88,13 @@ public class Character {
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
+    }
+
+    // REQUIRES: stat exists in character
+    // MODIFIES: this
+    // EFFECTS: stat is set to value
+    public void setStat(String stat, int value) {
+        stats.replace(stat, value);
     }
 
     // returns corresponding stat value

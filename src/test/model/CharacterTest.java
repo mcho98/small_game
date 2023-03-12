@@ -105,6 +105,9 @@ class CharacterTest {
 
         A.changeStat("MAG", -10);
         assertEquals(A.checkStat("MAG"), 0);
+
+        A.setStat("VIT", 10);
+        assertEquals(A.checkStat("VIT"), 10);
     }
 }
 

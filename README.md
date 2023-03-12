@@ -18,6 +18,8 @@ As a user, I am able to:
 - remove items from an inventory
 - add stats to my character
 - list my character's stats
+- save my character data - such as stats, level, and inventory -  (if I choose to do so)
+- load my character data - such as stats, level, and inventory -  (if I choose to do so)
 
 As a user I still want to be able to:
 - have multiple characters independent to each other and list them.

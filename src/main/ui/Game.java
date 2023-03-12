@@ -4,27 +4,35 @@ import model.Character;
 import model.Inventory;
 import model.Item;
 import model.Scenario;
+import persistence.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 // Represents the game application
 public class Game {
 
+    private static final String GAME_LOCATION = "./data/game.json";
     public static final String WELCOME = "Welcome to my rogue-like text-based RPG";
-    public static final String MENU = "1 : create a character, 2 : change scenarios, Q : quit";
+    public static final String MENU = "1 : create a character, 2 : change scenarios, 3: load from save, Q : quit";
     public static final String START_MESSAGE = "You awake in a dark cabin with the uneasy feeling that you've"
             + " been here before. Compelled by some unknown conviction, you exit into the pitch-black woods.";
     public static final String FIND_MESSAGE = "Stumbling in the dark, you come across: ";
     public static final String REST_MESSAGE_1 = "You take a moment to gather your thoughts.";
-    public static final String REST_MESSAGE_2 = "check inventory: I, press on: A, quit: B";
+    public static final String REST_MESSAGE_2 = "I : Check inventory. A: press on. S: Save. B, Quit";
     public static final String REST_MESSAGE_3 = "After a quick respite, you press on.";
     public static final String CLEARINGS_MESSAGE = "You have, for better or worse, made it through ";
     public static final String GAME_OVER_MESSAGE = "You succumb to your wounds.";
     public static final String INVALID = "Invalid input";
 
-
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
     private Character character;
     private Inventory inventory;
     private ArrayList<Item> itemList;
@@ -34,26 +42,45 @@ public class Game {
     private Scanner scanner;
     private int clearings;
 
-    public Game() {
-        init();
-        start();
-    }
-
-    // initialize fields prior to game start
-    // MODIFIES: this
+    // initializes fields prior to game start
     // EFFECTS: generates items and scenarios and places into item and scenario lists. generates list of stats
-    private void init() {
+    public Game() {
+        jsonWriter = new JsonWriter(GAME_LOCATION);
+        jsonReader = new JsonReader(GAME_LOCATION);
         itemList = new ArrayList<Item>();
         scenarioList = new ArrayList<Scenario>();
         statNames = new ArrayList<String>();
         statNamesInit();
         scanner = new Scanner(System.in);
+        random = new Random();
+        inventory = new Inventory();
+        character = new Character("");
         initItems1();
         initItems2();
         initItems3();
         initScenarios1();
         initScenarios2();
         initScenarios3();
+    }
+
+    // returns character name
+    public String getName() {
+        return character.getName();
+    }
+
+    // returns potions in inventory
+    public int getPotions() {
+        return inventory.getPotions();
+    }
+
+    // returns character stats
+    public int getStat(String stat) {
+        return character.checkStat(stat);
+    }
+
+    // returns name of item in position
+    public ArrayList<Item> getItems() {
+        return inventory.getItems();
     }
 
     // adds stat names to the list of stats
@@ -71,7 +98,7 @@ public class Game {
     // main menu
     // MODIFIES: this
     // EFFECTS: can either view and change scenarios, create a character and play the game, or quit
-    private void start() {
+    public void start() {
         System.out.println(WELCOME);
         System.out.println("Enter: ");
         System.out.println(MENU);
@@ -83,6 +110,9 @@ public class Game {
             createCharacter();
         } else if (input.equals("2")) {
             viewScenarios();
+        } else if (input.equals("3")) {
+            loadGame();
+            playGameFromSave();
         } else {
             System.out.println(INVALID);
             start();
@@ -113,14 +143,28 @@ public class Game {
     // EFFECTS: sets up a new game and loops core gameplay until character is out of health. Then returns to main menu
     private void playGame() {
         System.out.println(START_MESSAGE);
-        random = new Random();
         clearings = 0;
-        inventory = new Inventory();
         while (character.getHealth() != 0) {
             findItem();
             rest();
             findScenario();
             clearings(clearings);
+        }
+        System.out.println(GAME_OVER_MESSAGE);
+        finalOverview(clearings);
+        start();
+    }
+
+    // core game loop from save game
+    // REQUIRES: character health > 0
+    // MODIFIES: this
+    // EFFECTS: loads saved game and loops core gameplay until character is out of health. Then returns to main menu
+    private void playGameFromSave() {
+        while (character.getHealth() != 0) {
+            rest();
+            findScenario();
+            clearings(clearings);
+            findItem();
         }
         System.out.println(GAME_OVER_MESSAGE);
         finalOverview(clearings);
@@ -177,6 +221,9 @@ public class Game {
             System.out.println(REST_MESSAGE_3);
         } else if (input.equals("I") || input.equals("i")) {
             checkInventory();
+        } else if (input.equals("S") || input.equals("s")) {
+            saveGame();
+            rest();
         } else {
             System.out.println(INVALID);
             rest();
@@ -527,5 +574,106 @@ public class Game {
         s1.addCondition("AGI", 10);
         s1.addCondition("LUC", 5);
         scenarioList.add(s1);
+    }
+
+    // EFFECTS: saves game to file
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(this);
+            jsonWriter.close();
+            System.out.println("Saved " + character.getName() + " to " + GAME_LOCATION);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + GAME_LOCATION);
+        }
+    }
+
+    // EFFECTS: creates JSON
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        charToJson(json);
+        inventoryToJson(json);
+        json.put("clearings", clearings);
+        return json;
+    }
+
+    // EFFECTS: adds character data to JSON
+    private void charToJson(JSONObject json) {
+        json.put("name", character.getName());
+        json.put("exp", character.getExp());
+        json.put("level", character.getLevel());
+        json.put("health", character.getHealth());
+        json.put("maxHealth", character.getMaxHealth());
+        json.put("VIT", character.checkStat("VIT"));
+        json.put("AGI", character.checkStat("AGI"));
+        json.put("STR", character.checkStat("STR"));
+        json.put("MAG", character.checkStat("MAG"));
+        json.put("INT", character.checkStat("INT"));
+        json.put("LUC", character.checkStat("LUC"));
+    }
+
+    // EFFECTS: adds inventory data to JSON
+    private void inventoryToJson(JSONObject json) {
+        json.put("potions", inventory.getPotions());
+        json.put("items", itemsToJson());
+    }
+
+    // EFFECTS: adds inventory items data to JSON
+    private JSONArray itemsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Item i : inventory.getItems()) {
+            jsonArray.put(i.getName());
+        }
+        return jsonArray;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadGame() {
+        try {
+            jsonReader.read(this);
+            System.out.println("Loaded " + character.getName() + " from " + GAME_LOCATION);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + GAME_LOCATION);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets character values from JSON
+    public void setCharacterFromJson(String name, int exp, int level, int health, int maxHealth) {
+        character.setName(name);
+        character.setExp(exp);
+        character.setLevel(level);
+        character.setHealth(health);
+        character.setMaxHealth(maxHealth);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets character stat values from JSON
+    public void setCharacterStatsFromJson(int v, int a, int s, int m, int i, int l) {
+        character.setStat("VIT", v);
+        character.setStat("AGI", a);
+        character.setStat("STR", s);
+        character.setStat("MAG", m);
+        character.setStat("INT", i);
+        character.setStat("LUC", l);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets inventory from JSON
+    public void setInventoryFromJson(int potions, JSONArray items) {
+        inventory.setPotions(potions);
+        try {
+            for (Object i : items) {
+                for (Item item : itemList) {
+                    if (Objects.equals(i, item.getName())) {
+                        inventory.addItems(item);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Cannot read JSON");
+        }
     }
 }

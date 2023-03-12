@@ -9,6 +9,7 @@ public class Item {
     private String description;
     private final Hashtable<String, Integer> effects;
 
+    // EFFECTS: initializes item with name and description
     public Item(String name, String description) {
         this.name = name;
         this.description = description;

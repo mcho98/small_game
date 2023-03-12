@@ -8,6 +8,7 @@ public class Inventory {
     private int potions;
     private final ArrayList<Item> items;
 
+    // EFFECTS: initializes empty inventory
     public Inventory() {
         items = new ArrayList<>();
         potions = 0;
