@@ -37,6 +37,7 @@ public class JsonReaderTest {
             assertEquals("asdf", game.getName());
             assertEquals(11, game.getStat("MAG"));
             assertEquals(0, game.getPotions());
+            assertEquals(3, game.getClearings());
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
@@ -50,6 +51,7 @@ public class JsonReaderTest {
             assertEquals("asdf", game.getName());
             assertEquals(11, game.getStat("MAG"));
             assertEquals(3, game.getPotions());
+            assertEquals(3, game.getClearings());
 
             ArrayList<Item> items = game.getItems();
             assertEquals(4, items.size());

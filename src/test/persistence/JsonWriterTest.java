@@ -46,6 +46,7 @@ public class JsonWriterTest {
             assertEquals("asdf", game.getName());
             assertEquals(11, game.getStat("MAG"));
             assertEquals(0, game.getPotions());
+            assertEquals(3, game.getClearings());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
@@ -68,6 +69,7 @@ public class JsonWriterTest {
             assertEquals("asdf", game.getName());
             assertEquals(11, game.getStat("MAG"));
             assertEquals(3, game.getPotions());
+            assertEquals(3, game.getClearings());
 
             ArrayList<Item> items = game.getItems();
             assertEquals(4, items.size());

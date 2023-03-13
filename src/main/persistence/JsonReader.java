@@ -39,6 +39,8 @@ public class JsonReader {
 
     // EFFECTS: parses game data from JSON object and modified game
     private void parseGame(Game game, JSONObject jsonObject) {
+        int clearings = jsonObject.getInt("clearings");
+        game.setClearings(clearings);
         addCharacter(game, jsonObject);
         addInventory(game,jsonObject);
     }

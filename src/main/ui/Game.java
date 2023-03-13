@@ -83,6 +83,15 @@ public class Game {
         return inventory.getItems();
     }
 
+    // returns clearings
+    public int getClearings() {
+        return clearings;
+    }
+
+    public void setClearings(int clearings) {
+        this.clearings = clearings;
+    }
+
     // adds stat names to the list of stats
     // MODIFIES: this
     // EFFECTS: adds stat names to the list of stats
