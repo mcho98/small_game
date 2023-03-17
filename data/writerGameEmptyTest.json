@@ -1,0 +1,16 @@
+{
+    "VIT": 6,
+    "AGI": 15,
+    "level": 2,
+    "health": 3,
+    "INT": 11,
+    "STR": 11,
+    "MAG": 11,
+    "potions": 0,
+    "clearings": 3,
+    "name": "asdf",
+    "maxHealth": 6,
+    "LUC": 15,
+    "exp": 50,
+    "items": []
+}
