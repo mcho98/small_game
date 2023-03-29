@@ -1,0 +1,20 @@
+{
+    "VIT": 5,
+    "AGI": 5,
+    "level": 1,
+    "health": 2,
+    "INT": 5,
+    "STR": 5,
+    "MAG": 5,
+    "potions": 1,
+    "clearings": 3,
+    "name": "Gaming",
+    "maxHealth": 5,
+    "LUC": 5,
+    "exp": 0,
+    "items": [
+        "Effigy of a Forgotten God",
+        "Moldy Cheese",
+        "Unlit Lantern"
+    ]
+}

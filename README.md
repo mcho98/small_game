@@ -23,3 +23,39 @@ As a user, I am able to:
 
 As a user I still want to be able to:
 - have multiple characters independent to each other and list them.
+
+## Instructions for Grader
+# Adding X to Y
+To generate the first required action related to adding Xs to a Y
+- Run Main
+- Hit the "Scenarios" button
+- In the white panel is a listing of Scenarios
+- There are 7 text fields in the light gray panel
+- Type characters in the first text field and numbers in the next 6
+- Click the "Add Scenarios" button when ready. The white panel should be updated to now include the new scenario
+
+To generate the second required action related to adding Xs to a Y
+- Run Main
+- Hit the "Scenarios" button
+- In the white panel is a listing of Scenarios
+- There is 1 text field in the dark panel next to a button labelled "Remove Scenario"
+- Type a number from the listing into the sole text field
+- Click the "Remove Scenario" button when ready. The white panel should be updated to not have the removed scenario
+
+# Visual Component
+To find the visual component, simply run Main.
+The visual component is a picture background only present in the start menu
+
+# Saving
+To save the state of my application, 
+- Run Main
+- Press "Start"
+- enter any string of characters in the middle text field and click "Create New Character"
+- Press "Save" to save the state of the game
+- You can also press "Continue" to progress the game and save anytime before the game ending using "Save"
+
+# Loading
+To load the state of my application,
+- Run Main
+- Press "Load" to load the state of the application
+

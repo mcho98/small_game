@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+
 
 //Represents an in-game item
 public class Item {
@@ -53,5 +55,15 @@ public class Item {
             character.changeStat(stat, effects.get(stat));
         }
         character.determineMaxHealth();
+    }
+
+    // REQUIRES: non-empty list of effects
+    // EFFECTS: returns list of effects as strings
+    public ArrayList<String> getEffectsAsStrings() {
+        ArrayList<String> newList = new ArrayList<>();
+        for (String s : getEffects().keySet()) {
+            newList.add(s + ": " + this.effects.get(s));
+        }
+        return newList;
     }
 }
