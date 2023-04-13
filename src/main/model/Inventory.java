@@ -46,27 +46,38 @@ public class Inventory {
     }
 
     // adds item to items
-    // MODIFIES: this
-    // EFFECTS: adds item to items
+    // MODIFIES: this, EventLog
+    // EFFECTS: adds item to items, adds event to log
     public void addItems(Item item) {
         items.add(item);
+        itemEventLogging(item, " added to inventory.");
     }
 
     // use and remove an item from the inventory
     // REQUIRES: valid character and position
-    // MODIFIES: this, character
-    // EFFECTS: use and removes the item at position from the inventory list
+    // MODIFIES: this, character, EventLog
+    // EFFECTS: use and removes the item at position from the inventory list, adds event to log
     public void useItem(Character character, int position) {
         Item item = items.get(position);
         item.applyEffects(character);
-        discardItem(position);
+        itemEventLogging(item, " used by " + character.getName() + ".");
+        items.remove(position);
     }
 
     // discard item from inventory
     // REQUIRES: valid position
-    // MODIFIES: this
-    // EFFECTS: removes the item at position from the inventory list
+    // MODIFIES: this, EventLog
+    // EFFECTS: removes the item at position from the inventory list, adds event to log
     public void discardItem(int position) {
+        Item item = items.get(position);
+        itemEventLogging(item, " discarded from inventory.");
         items.remove(position);
+    }
+
+    // MODIFIES: EventLog
+    // EFFECTS: adds a new item-based event to event log
+    private void itemEventLogging(Item item, String task) {
+        Event e = new Event(item.getName() + task);
+        EventLog.getInstance().logEvent(e);
     }
 }

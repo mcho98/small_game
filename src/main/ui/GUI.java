@@ -2,15 +2,18 @@ package ui;
 
 
 import model.*;
+import model.Event;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 // a GUI for the game
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener, WindowListener {
 
     private JFrame frame;
     private JPanel inventoryPanel;
@@ -63,6 +66,7 @@ public class GUI extends JFrame implements ActionListener {
         frame.setSize(1000,1000);
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(this);
 
         layouts();
         loadImage();
@@ -478,6 +482,9 @@ public class GUI extends JFrame implements ActionListener {
     // EFFECTS: actions performed with a button is pressed
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == quitButton) {
+            for (Event event : EventLog.getInstance()) {
+                System.out.println(event.getDate() + ": " + event.getDescription());
+            }
             System.exit(0);
         }
 
@@ -586,5 +593,42 @@ public class GUI extends JFrame implements ActionListener {
                 resetScenarioListing();
             }
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.getDate() + ": " + event.getDescription());
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

@@ -1,20 +1,16 @@
 {
     "VIT": 5,
-    "AGI": 5,
+    "AGI": 3,
     "level": 1,
-    "health": 2,
-    "INT": 5,
-    "STR": 5,
+    "health": 3,
+    "INT": 10,
+    "STR": 3,
     "MAG": 5,
-    "potions": 1,
+    "potions": 0,
     "clearings": 3,
-    "name": "Gaming",
+    "name": "asdf",
     "maxHealth": 5,
     "LUC": 5,
-    "exp": 0,
-    "items": [
-        "Effigy of a Forgotten God",
-        "Moldy Cheese",
-        "Unlit Lantern"
-    ]
+    "exp": 50,
+    "items": ["Non-Fungible Toad"]
 }

@@ -4,6 +4,7 @@ import model.Character;
 import model.Inventory;
 import model.Item;
 import model.Scenario;
+import model.ScenarioList;
 import persistence.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +38,7 @@ public class Game {
     private Character character;
     private Inventory inventory;
     private ArrayList<Item> itemList;
-    private ArrayList<Scenario> scenarioList;
+    private ScenarioList scenarioList;
     private ArrayList<String> statNames;
     private Random random;
     private Scanner scanner;
@@ -49,7 +50,7 @@ public class Game {
         jsonWriter = new JsonWriter(GAME_LOCATION);
         jsonReader = new JsonReader(GAME_LOCATION);
         itemList = new ArrayList<Item>();
-        scenarioList = new ArrayList<Scenario>();
+        scenarioList = new ScenarioList();
         statNames = new ArrayList<String>();
         statNamesInit();
         scanner = new Scanner(System.in);
@@ -210,7 +211,7 @@ public class Game {
     // REQUIRES: non-empty list of scenarios
     // EFFECTS: returns list of scenarios
     public ArrayList<Scenario> getScenarios() {
-        return scenarioList;
+        return scenarioList.asArrayList();
     }
 
     // REQUIRES: non-empty scenarios list
