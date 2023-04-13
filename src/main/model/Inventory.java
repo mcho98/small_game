@@ -77,7 +77,7 @@ public class Inventory {
     // MODIFIES: EventLog
     // EFFECTS: adds a new item-based event to event log
     private void itemEventLogging(Item item, String task) {
-        Event e = new Event(item.getName() + task);
+        Event e = new Event("Item " + item.getName() + task);
         EventLog.getInstance().logEvent(e);
     }
 }

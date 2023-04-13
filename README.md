@@ -59,3 +59,24 @@ To load the state of my application,
 - Run Main
 - Press "Load" to load the state of the application
 
+## Phase 4: Task 2
+Sample log:
+
+Wed Apr 12 22:19:38 PDT 2023: Scenario Forest Clearing added to Scenario List.
+Wed Apr 12 22:19:38 PDT 2023: Scenario A Strange Lever added to Scenario List.
+Wed Apr 12 22:19:38 PDT 2023: Scenario Will-o-Wisp added to Scenario List.
+Wed Apr 12 22:19:38 PDT 2023: Scenario River added to Scenario List.
+Wed Apr 12 22:19:38 PDT 2023: Scenario Eyes added to Scenario List.
+Wed Apr 12 22:19:38 PDT 2023: Scenario Old Man added to Scenario List.
+Wed Apr 12 22:19:38 PDT 2023: Scenario Demon added to Scenario List.
+Wed Apr 12 22:19:52 PDT 2023: Scenario New Scen added to Scenario List.
+Wed Apr 12 22:19:54 PDT 2023: Scenario Forest Clearing removed from Scenario List.
+Wed Apr 12 22:20:05 PDT 2023: Item Blindfold added to inventory.
+Wed Apr 12 22:20:05 PDT 2023: Item Unlit Lantern added to inventory.
+Wed Apr 12 22:20:06 PDT 2023: Item Glasses added to inventory.
+Wed Apr 12 22:20:08 PDT 2023: Item Blindfold discarded from inventory.
+Wed Apr 12 22:20:11 PDT 2023: Item Unlit Lantern used by Character.
+Wed Apr 12 22:20:12 PDT 2023: Item Hearty Soup added to inventory.
+
+
+

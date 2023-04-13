@@ -34,17 +34,5 @@ public class ScenarioListTest {
         scenarioList.remove(0);
         assertEquals(B, scenarioList.get(0));
     }
-
-    @Test
-    void ArrayTest() {
-        scenarioList.add(A);
-        scenarioList.add(B);
-        scenarioList.add(C);
-        ArrayList<Scenario> test = scenarioList.asArrayList();
-        assertEquals(scenarioList.get(0), test.get(0));
-        assertEquals(scenarioList.get(1), test.get(1));
-        assertEquals(scenarioList.get(2), test.get(2));
-
-    }
 }
 
