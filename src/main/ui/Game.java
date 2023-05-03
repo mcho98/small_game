@@ -211,7 +211,7 @@ public class Game {
     // REQUIRES: non-empty list of scenarios
     // EFFECTS: returns list of scenarios
     public ArrayList<Scenario> getScenarios() {
-        return scenarioList;
+        return scenarioList.asArrayList();
     }
 
     // REQUIRES: non-empty scenarios list

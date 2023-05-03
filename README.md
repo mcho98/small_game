@@ -59,6 +59,7 @@ To load the state of my application,
 - Run Main
 - Press "Load" to load the state of the application
 
+<<<<<<< HEAD
 ## Phase 4: Task 2
 Sample log:
 
@@ -78,5 +79,15 @@ Wed Apr 12 22:20:08 PDT 2023: Item Blindfold discarded from inventory.
 Wed Apr 12 22:20:11 PDT 2023: Item Unlit Lantern used by Character.
 Wed Apr 12 22:20:12 PDT 2023: Item Hearty Soup added to inventory.
 
+## Phase 4: Task 3
+During the transition from Phase 2 to Phase 3, the Game class went from having to run and display the game to 
+only needing to run the game as display became the role of the GUI class. In this sense, it would make more sense to 
+compartmentalize Game into smaller classes in the model package. For example, Game deals with finding items, using items
+and adding/deleting scenarios. Instead, this should be broken up into an ItemFunctionality class and a ScenarioMaker
+class. As it is right now, Game is poorly coupled and does too much. For example, changes to the Character class could 
+break saving and loading as Character, JsonWriter, and JsonReader communicate through Game. 
 
 
+
+=======
+>>>>>>> parent of 64aac45 (Phase 4: Task 2)
